@@ -1,14 +1,35 @@
 function mergeObjects(obj1) {
-	//Change this function
-	var x={};
-	for (var i = 0; i < arguments.length; i++) {
-		for (key in obj1){
-			if (arguments[i].key==arguments[i+1].key){
-				x.key.push(arguments[i].key);
-			}
-		}
-	}
-	return {};
+  var x={};
+  var keys = [];
+  var values = [];
+  for(var i = 0; i < obj1.length; i++){
+    if (i == 0){
+      for(key in obj1[i]){
+        keys[keys.length] = key;
+      }
+    } else {
+      for(key in obj1[i]){
+        for(var j = 0; j < keys.length; j++){
+          if(key == keys[j]){
+            break;
+          } else if (key != keys[j] && keys.length-1 == j){
+            keys[keys.length] = key;
+            break;
+          }
+        }
+      }
+    }
+  }
+  for(var i = 0; i < keys.length; i++){
+    for(var j = 0; j < obj1.length; j++){
+      if(obj1[j][keys[i]] != undefined){
+        values[values.length] = obj1[j][keys[i]];
+      }
+    }
+    x[keys[i]] = values;
+    values = [];
+  }
+  return x;
 }
 
 function assertEqualObjects(expectedVal, actualVal, message) {
